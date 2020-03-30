@@ -15,7 +15,14 @@ class Home extends Component {
 
     this.state = {
       isStart: false,
+      showTimerValue: 1500,
+      activePomodoroCount: 0,
+      status: 'start',
     }
+
+    this.startTimer = this.startTimer.bind(this);
+    this.pomodoroTimerControl = this.pomodoroTimerControl.bind(this);
+    this.parseStringToClock = this.parseStringToClock.bind(this);
   }
 
   async componentDidMount() {
@@ -30,8 +37,35 @@ class Home extends Component {
     }
   }
 
+  pomodoroTimerControl() {
+    const { workTime, halfBreakTime, fullBreakTime } = this.props.setting;
+    const { status, showTimerValue } = this.state;
+    switch(status) {
+      case 'start':
+        this.setState({status: "work"});
+        return;
+      case 'work':
+        this.setState({ showTimerValue: (showTimerValue - 1) });
+        return;
+    }
+  }
+
+  startTimer() {
+    this.setState({ isStart: true,
+                    status: 'work'});
+    this.timer = setInterval(this.pomodoroTimerControl, 1000);
+  }
+
+  parseStringToClock(data) {
+    var intData = parseInt(data, 0);
+    var min = Math.floor(intData / 60);
+    var sec = intData % 60;
+
+    return ( min < 10 ? '0' + min : min) + ':' + ( sec < 10 ? '0' + sec : sec );
+  }
+
   render() {
-    const { isStart } = this.state;
+    const { isStart, showTimerValue } = this.state;
     return (
       <SafeAreaView>
         <View style={styles.homeContainer}>
@@ -41,10 +75,11 @@ class Home extends Component {
           <View style={styles.timeContainer}>
             <TouchableOpacity onPress={() => {
                                         if (!isStart)
-                                          this.setState({isStart: true})}}>
+                                          this.startTimer()}}>
               <View style={styles.timerBorder}>
                 <Text style={styles.timerText}>
-                  { isStart ?  "12:23" : CommonContent.start }
+                  { isStart ? this.parseStringToClock(showTimerValue)
+                            : CommonContent.start }
                 </Text>
               </View>
             </TouchableOpacity>
