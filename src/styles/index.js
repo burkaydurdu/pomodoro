@@ -65,23 +65,46 @@ export const styles = StyleSheet.create({
     flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#B2BFF0",
   },
 
   timerBorder: {
     width: 200,
     height: 200,
     borderRadius: 100,
-    borderWidth: 1,
+    borderWidth: 10,
+    borderColor: "#000",
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000'
   },
 
   timerText: {
     fontSize: 48,
     fontFamily: 'sofia-pro-bold',
-    color: '#FFF',
+    color: '#000',
+  },
+
+  timeTitleContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  timeTitle: {
+    fontSize: 32,
+    fontFamily: 'sofia-pro-regular',
+    color: '#000'
+  },
+
+  pomodoroBoardContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  pomodoroBoardText: {
+    fontSize: 18,
+    fontFamily: 'sofia-pro-light',
+    color: '#000'
   }
 });
 

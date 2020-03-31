@@ -15,7 +15,7 @@ class Home extends Component {
 
     this.state = {
       isStart: false,
-      showTimerValue: 1500,
+      showTimerValue: 3,
       activePomodoroCount: 0,
       status: 'start',
     }
@@ -23,6 +23,7 @@ class Home extends Component {
     this.startTimer = this.startTimer.bind(this);
     this.pomodoroTimerControl = this.pomodoroTimerControl.bind(this);
     this.parseStringToClock = this.parseStringToClock.bind(this);
+    this.getTitle = this.getTitle.bind(this);
   }
 
   async componentDidMount() {
@@ -39,14 +40,26 @@ class Home extends Component {
 
   pomodoroTimerControl() {
     const { workTime, halfBreakTime, fullBreakTime } = this.props.setting;
-    const { status, showTimerValue } = this.state;
+    const { status, showTimerValue, activePomodoroCount } = this.state;
     switch(status) {
       case 'start':
         this.setState({status: "work"});
-        return;
-      case 'work':
+        break;
+      default:
         this.setState({ showTimerValue: (showTimerValue - 1) });
-        return;
+        break;
+    }
+
+    if(showTimerValue == '0' && status == 'work' && (activePomodoroCount % 4) != 3) {
+      this.setState({ status: 'half_break',
+                      showTimerValue: 4 });
+    } else if(showTimerValue == '0' && status == 'work' && (activePomodoroCount % 4) == 3) {
+      this.setState({ status: 'full_break',
+                      showTimerValue: 10 });
+    } else if(showTimerValue == '0' && (status == 'half_break') || status == 'full_break') {
+      this.setState({ status: 'work',
+                      activePomodoroCount: activePomodoroCount + 1,
+                      showTimerValue: 3})
     }
   }
 
@@ -64,13 +77,29 @@ class Home extends Component {
     return ( min < 10 ? '0' + min : min) + ':' + ( sec < 10 ? '0' + sec : sec );
   }
 
+  getTitle(status) {
+    switch(status) {
+      case 'start':
+        return ""
+      case 'work':
+        return "Odaklan"
+      case 'finish':
+        return "Tebrikler günlük pomodoronu tamamladın"
+      default:
+        return "Dinlen"
+    }
+  }
+
   render() {
-    const { isStart, showTimerValue } = this.state;
+    const { isStart, showTimerValue, status, activePomodoroCount } = this.state;
+    const { pomodoroCount } = this.props.setting;
     return (
       <SafeAreaView>
         <View style={styles.homeContainer}>
-          <View style={{flex: 1,backgroundColor: 'powderblue'}}>
-
+          <View style={styles.timeTitleContainer}>
+            <Text style={styles.timeTitle}>
+              {this.getTitle(status)}
+            </Text>
           </View>
           <View style={styles.timeContainer}>
             <TouchableOpacity onPress={() => {
@@ -84,7 +113,13 @@ class Home extends Component {
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{flex: 1,backgroundColor: 'steelblue'}}>
+          <View style={styles.pomodoroBoardContainer}>
+            <Text style={styles.pomodoroBoardText}>
+              {"Tamamlanan: " + (activePomodoroCount % 4) + "/4"}
+            </Text>
+            <Text style={styles.pomodoroBoardText}>
+              {"Hedef: " + Math.floor(activePomodoroCount / 4) + "/" + pomodoroCount}
+            </Text>
           </View>
         </View>
       </SafeAreaView>

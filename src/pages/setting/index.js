@@ -94,7 +94,6 @@ Setting.propTypes = {
 
 const mapStateToProps = state => ({
   setting: state.setting.setting,
-  isSave: state.setting.isSaveSetting,
 });
 
 export default connect(mapStateToProps, { doSaveSetting }) (Setting);
