@@ -32,15 +32,25 @@ class Home extends Component {
       if (value !== null) {
         const settings = JSON.parse(value);
         this.props.doSaveSetting(settings);
+      } else {
+        this.props.doSaveSetting({ workTime: 25,
+                                   halfBreakTime: 5,
+                                   fullBreakTime: 20,
+                                   pomodoroCount: 8 });
       }
     } catch (error) {
       console.log("Error");
     }
   }
 
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
   pomodoroTimerControl() {
     const { workTime, halfBreakTime, fullBreakTime } = this.props.setting;
     const { status, showTimerValue, activePomodoroCount } = this.state;
+
     switch(status) {
       case 'start':
         this.setState({status: "work"});
@@ -49,14 +59,13 @@ class Home extends Component {
         this.setState({ showTimerValue: (showTimerValue - 1) });
         break;
     }
-
     if(showTimerValue == '0' && status == 'work' && (activePomodoroCount % 4) != 3) {
       this.setState({ status: 'half_break',
                       showTimerValue: 4 });
     } else if(showTimerValue == '0' && status == 'work' && (activePomodoroCount % 4) == 3) {
       this.setState({ status: 'full_break',
                       showTimerValue: 10 });
-    } else if(showTimerValue == '0' && (status == 'half_break') || status == 'full_break') {
+    } else if(showTimerValue == '0' && (status == 'half_break' || status == 'full_break')) {
       this.setState({ status: 'work',
                       activePomodoroCount: activePomodoroCount + 1,
                       showTimerValue: 3})
@@ -92,7 +101,6 @@ class Home extends Component {
 
   render() {
     const { isStart, showTimerValue, status, activePomodoroCount } = this.state;
-    const { pomodoroCount } = this.props.setting;
     return (
       <SafeAreaView>
         <View style={styles.homeContainer}>
@@ -114,12 +122,19 @@ class Home extends Component {
             </TouchableOpacity>
           </View>
           <View style={styles.pomodoroBoardContainer}>
-            <Text style={styles.pomodoroBoardText}>
-              {"Tamamlanan: " + (activePomodoroCount % 4) + "/4"}
-            </Text>
-            <Text style={styles.pomodoroBoardText}>
-              {"Hedef: " + Math.floor(activePomodoroCount / 4) + "/" + pomodoroCount}
-            </Text>
+            { isStart ?
+                (
+                  <View>
+                    <Text style={styles.pomodoroBoardText}>
+                      {"Tamamlanan: " + (activePomodoroCount % 4) + "/4"}
+                    </Text>
+                    <Text style={styles.pomodoroBoardText}>
+                      { "Hedef: " + Math.floor(activePomodoroCount / 4) + "/" + this.props.setting.pomodoroCount }
+                    </Text>
+                  </View>
+                )
+                : null
+            }
           </View>
         </View>
       </SafeAreaView>
