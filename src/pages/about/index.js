@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
 
 import { styles } from '../../styles';
-
 import { AboutContent } from '../../contents';
 
 class About extends Component {
@@ -28,12 +27,27 @@ class About extends Component {
                   source={require('../../../assets/img/remotely.png')}
                 />
               </View>
-              <Text style={styles.subTitle}>
-                {AboutContent.title2}
-              </Text>
-              <FlatList
-                data={AboutContent.technicalList}
-                renderItem={({item}) => <Text style={styles.aboutListText}>- {item.item}</Text>}/>
+              <View style={styles.marginBottom10}>
+                <Text style={[styles.subTitle, styles.marginBottom5]}>
+                  {AboutContent.title2}
+                </Text>
+                <View>
+                  <Text style={styles.aboutContent}>{AboutContent.technicalList1}</Text>
+                  <Text style={styles.aboutContent}>{AboutContent.technicalList2}</Text>
+                  <Text style={styles.aboutContent}>{AboutContent.technicalList3}</Text>
+                  <Text style={styles.aboutContent}>{AboutContent.technicalList4}</Text>
+                </View>
+              </View>
+              <View style={styles.marginBottom10}>
+                <Text style={[styles.subTitle, styles.marginBottom5]}>
+                  {AboutContent.title3}
+                </Text>
+                <View>
+                  <Text style={[styles.aboutContent, styles.marginBottom5]}>{AboutContent.row3}</Text>
+                  <Text style={[styles.aboutContent, styles.marginBottom5]}>{AboutContent.row4}</Text>
+                  <Text style={[styles.aboutContent, styles.marginBottom5]}>{AboutContent.row5}</Text>
+                </View>
+              </View>
             </View>
           </View>
         </ScrollView>

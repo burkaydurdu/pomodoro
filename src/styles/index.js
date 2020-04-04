@@ -4,6 +4,22 @@ const windowDimensions = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
 
+  marginBottom10: {
+    marginBottom: 10,
+  },
+
+  marginBottom5: {
+    marginBottom: 5,
+  },
+
+  margin5: {
+    margin: 5
+  },
+
+  margin10: {
+    margin: 10,
+  },
+
   container: {
     width: windowDimensions.width,
     height: windowDimensions.height,
@@ -92,7 +108,8 @@ export const styles = StyleSheet.create({
   timeTitle: {
     fontSize: 32,
     fontFamily: 'sofia-pro-regular',
-    color: '#000'
+    color: '#000',
+    textAlign: 'center'
   },
 
   pomodoroBoardContainer: {

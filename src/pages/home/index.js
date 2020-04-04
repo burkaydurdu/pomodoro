@@ -48,7 +48,7 @@ class Home extends Component {
   }
 
   pomodoroTimerControl() {
-    const { workTime, halfBreakTime, fullBreakTime } = this.props.setting;
+    const { workTime, halfBreakTime, fullBreakTime, pomodoroCount } = this.props.setting;
     const { status, showTimerValue, activePomodoroCount } = this.state;
 
     switch(status) {
@@ -70,11 +70,19 @@ class Home extends Component {
                       activePomodoroCount: activePomodoroCount + 1,
                       showTimerValue: 3})
     }
+
+    if (activePomodoroCount  == pomodoroCount) {
+      clearInterval(this.timer);
+      this.setState({ status: 'finish',
+                      isStart: false});
+    }
   }
 
   startTimer() {
     this.setState({ isStart: true,
-                    status: 'work'});
+                    status: 'work',
+                    showTimerValue: 3,
+                    activePomodoroCount: 0});
     this.timer = setInterval(this.pomodoroTimerControl, 1000);
   }
 
@@ -126,10 +134,10 @@ class Home extends Component {
                 (
                   <View>
                     <Text style={styles.pomodoroBoardText}>
-                      {"Tamamlanan: " + (activePomodoroCount % 4) + "/4"}
+                      {"Tamamlanan: " + activePomodoroCount}
                     </Text>
                     <Text style={styles.pomodoroBoardText}>
-                      { "Hedef: " + Math.floor(activePomodoroCount / 4) + "/" + this.props.setting.pomodoroCount }
+                      { "Hedef: " + activePomodoroCount + "/" + this.props.setting.pomodoroCount }
                     </Text>
                   </View>
                 )
