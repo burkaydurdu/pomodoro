@@ -16,6 +16,8 @@ import { styles } from './src/styles';
 
 import * as Font from 'expo-font';
 
+import { Ionicons } from '@expo/vector-icons';
+
 export default class App extends Component {
 
   constructor(props) {
@@ -45,10 +47,27 @@ export default class App extends Component {
           this.state.fontLoaded ? (
             <Provider store= { store }>
               <NavigationContainer>
-                <Tab.Navigator>
-                  <Tab.Screen name="Home" component={Home} />
-                  <Tab.Screen name="Setting" component={Setting} />
-                  <Tab.Screen name="About" component={About} />
+                <Tab.Navigator
+                  screenOptions={({route}) => ({
+                    tabBarIcon: ({ focused, color, size }) => {
+                      let iconName;
+                      switch (route.name) {
+                        case 'Pomodoro':
+                            iconName = 'ios-home';
+                          break;
+                        case 'Ayarlar':
+                            iconName = 'ios-settings';
+                          break;
+                        case 'Hakkında':
+                            iconName = 'ios-information-circle';
+                          break;
+                      }
+                      return <Ionicons name={iconName} size={size} color={color}/>
+                    }
+                  })}>
+                  <Tab.Screen name="Pomodoro" component={Home} />
+                  <Tab.Screen name="Ayarlar" component={Setting} />
+                  <Tab.Screen name="Hakkında" component={About} />
                 </Tab.Navigator>
               </NavigationContainer>
             </Provider>

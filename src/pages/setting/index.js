@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TextInput, Button,
-         AsyncStorage,
-         ToastAndroid, Alert, Platform} from 'react-native';
+         AsyncStorage, ToastAndroid, Alert, Platform} from 'react-native';
 // Redux
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
@@ -44,7 +43,6 @@ class Setting extends Component {
     }
   }
 
-
   async handleSubmit() {
     try {
       await AsyncStorage.setItem('setting', JSON.stringify(this.state));
@@ -59,7 +57,7 @@ class Setting extends Component {
     const { workTime, halfBreakTime, fullBreakTime, pomodoroCount } = this.state;
     return (
       <SafeAreaView>
-        <KeyboardAwareScrollView style={styles.container}>
+        <KeyboardAwareScrollView style={[styles.container, styles.marginTop20]}>
           <View style={styles.margin5}>
             <View style={styles.marginBottom10}>
               <Text style={styles.title}> Setting </Text>

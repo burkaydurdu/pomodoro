@@ -15,7 +15,7 @@ class Home extends Component {
 
     this.state = {
       isStart: false,
-      showTimerValue: 3,
+      showTimerValue: 1500,
       activePomodoroCount: 0,
       status: 'start',
     }
@@ -61,14 +61,14 @@ class Home extends Component {
     }
     if(showTimerValue == '0' && status == 'work' && (activePomodoroCount % 4) != 3) {
       this.setState({ status: 'half_break',
-                      showTimerValue: 4 });
+                      showTimerValue: parseInt(halfBreakTime) * 60 });
     } else if(showTimerValue == '0' && status == 'work' && (activePomodoroCount % 4) == 3) {
       this.setState({ status: 'full_break',
-                      showTimerValue: 10 });
+                      showTimerValue: parseInt(fullBreakTime) * 60 });
     } else if(showTimerValue == '0' && (status == 'half_break' || status == 'full_break')) {
       this.setState({ status: 'work',
                       activePomodoroCount: activePomodoroCount + 1,
-                      showTimerValue: 3})
+                      showTimerValue: parseInt(workTime) * 60})
     }
 
     if (activePomodoroCount  == pomodoroCount) {
@@ -78,10 +78,10 @@ class Home extends Component {
     }
   }
 
-  startTimer() {
+  startTimer(workTime) {
     this.setState({ isStart: true,
                     status: 'work',
-                    showTimerValue: 3,
+                    showTimerValue: parseInt(workTime) * 60,
                     activePomodoroCount: 0});
     this.timer = setInterval(this.pomodoroTimerControl, 1000);
   }
@@ -120,7 +120,7 @@ class Home extends Component {
           <View style={styles.timeContainer}>
             <TouchableOpacity onPress={() => {
                                         if (!isStart)
-                                          this.startTimer()}}>
+                                          this.startTimer(this.props.setting.workTime)}}>
               <View style={styles.timerBorder}>
                 <Text style={styles.timerText}>
                   { isStart ? this.parseStringToClock(showTimerValue)

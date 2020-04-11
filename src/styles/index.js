@@ -12,6 +12,10 @@ export const styles = StyleSheet.create({
     marginBottom: 5,
   },
 
+  marginTop20: {
+    marginTop: 20
+  },
+
   margin5: {
     margin: 5
   },

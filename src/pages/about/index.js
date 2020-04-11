@@ -12,7 +12,7 @@ class About extends Component {
   render() {
     return (
       <SafeAreaView>
-        <ScrollView>
+        <ScrollView style={styles.marginTop20}>
           <View>
             <Text style={styles.title}> About </Text>
             <View style={styles.aboutContentView}>
