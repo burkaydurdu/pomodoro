@@ -14,7 +14,7 @@ class About extends Component {
       <SafeAreaView>
         <ScrollView style={styles.marginTop20}>
           <View>
-            <Text style={styles.title}> About </Text>
+            <Text style={styles.title}> Hakkında </Text>
             <View style={styles.aboutContentView}>
               <Text style={styles.aboutContent}>
                 {AboutContent.row1}

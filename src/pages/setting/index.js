@@ -60,7 +60,7 @@ class Setting extends Component {
         <KeyboardAwareScrollView style={[styles.container, styles.marginTop20]}>
           <View style={styles.margin5}>
             <View style={styles.marginBottom10}>
-              <Text style={styles.title}> Setting </Text>
+              <Text style={styles.title}> Ayarlar </Text>
             </View>
             <View style={styles.margin5}>
               <Text> {SettingContent.activeWorkTime} </Text>
